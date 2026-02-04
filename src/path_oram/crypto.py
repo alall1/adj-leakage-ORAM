@@ -1,3 +1,4 @@
+# src/path_oram/crypto.py
 """
 Phase 1: crypto is conceptual.
 We only need randomness for leaf assignment.
