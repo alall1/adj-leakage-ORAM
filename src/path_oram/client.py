@@ -1,3 +1,4 @@
+# src/path_oram/client.py
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Optional
@@ -137,3 +138,58 @@ class PathOramClient:
 			for bucket in self.server.tree[level]:
 				count += sum(1 for b in bucket.blocks if not b.is_dummy)
 		return count
+
+	# Returns a list of all non-dummy block_ids across stash and server, useful for detecting duplicates
+	def _all_real_block_ids(self) -> list[int]:
+		ids = []
+
+		# stash
+		for b in self.stash:
+			if not b.is_dummy:
+				ids.append(b.block_id)
+
+		# server
+		for level in range(self.cfg.depth + 1):
+			for bucket in self.server.tree[level]:
+				for b in bucket.blocks:
+					if not b.is_dummy:
+						ids.append(b.block_id)
+		
+		return ids
+
+	# Ensures every bucket has exactly Z blocks (real + dummy)
+	def _assert_all_buckets_exactly_Z(self) -> None:
+		for level in range(self.cfg.depth + 1):
+			for bucket in self.server.tree[level]:
+				if len(bucket.blocks) != self.cfg.Z:
+					raise AssertionError(
+						f"Bucket size invariant failed: got {len(bucket.blocks)} != Z={self.cfg.Z}"
+					)
+	# Correctness invariants (small n):
+	# 1) Every bucket has exactly Z blocks
+	# 2) No duplicate real block_id across stash + server
+	# 3) All block_ids 0...n-1 exist once somewhere (since lazy create on first access, will fail until each block has been written)
+	def assert_invariants(self, require_all_blocks_present: bool = False) -> None:
+		# 1) Z blocks per bucket
+		self._assert_all_buckets_exactly_Z()
+
+		ids = self._all_real_block_ids()
+
+		# 2) duplicate check
+		seen = set()
+		for bid in ids:
+			if bid in seen:
+				raise AssertionError(f"Duplicate real block_id detected: {bid}")
+			seen.add(bid)
+
+		# 3) checking if all blocks exist somewhere
+		if require_all_blocks_present:
+			expected = set(range(self.cfg.n))
+			if seen != expected:
+				missing = sorted(list(expected - seen))
+				extra = sorted(list(seen - expected))
+				raise AssertionError(
+					f"All-blocks-present invariant failed.\n"
+					f"Missing: {missing[:10]}{'...' if len(missing) > 10 else ''}\n"
+					f"Extra: {extra[:10]}{'...' if len(extra) > 10 else ''}"
+				)
