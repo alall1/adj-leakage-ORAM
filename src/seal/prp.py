@@ -2,59 +2,55 @@
 import hashlib
 from dataclasses import dataclass
 
-def _u32(x: int) -> int:
-	return x & 0xFFFFFFFF
-
-# Conceptual PRF for Feistel: returns 32-bit int from (key, round, half)
-def _round_f(key: bytes, r: int, half: int) -> int:
-	h = hashlib.blake2s(digest_size=4)
+def _hash_to_int(key: bytes, label: bytes, out_bytes: int = 8) -> int:
+	h = hashlib.blake2s(digest_size=out_bytes)
 	h.update(key)
-	h.update(r.to_bytes(4, "big"))
-	h.update(_u32(half).to_bytes(4, "big"))
+	h.update(label)
 	return int.from_bytes(h.digest(), "big")
 
-# Conceptual PRP over k-bit integers using a Feistel network (if k is odd, pad the split by 1 bit
+# Returns (g, x, y) s.t. ax + by = g = gcd(a,b)
+def _egcd(a: int, b: int) -> tuple[int, int, int]:
+	if b == 0:
+		return (a, 1, 0)
+	g, x1, y1 = _egcd(b, a % b)
+	return (g, y1, x1 - (a // b) * y1)
+
+def _modinv(a: int, m: int) -> int:
+	g, x, _ = _egcd(a, m)
+	if g != 1:
+		raise ValueError("no modular inverse")
+	return x % m
+
+# Conceptual PRP over k-bit integers using affline permutation mod 2^k
 @dataclass(frozen=True)
-class FeistelPRP:
+class AffinePRP:
 	key: bytes
 	k: int
-	rounds: int = 6
+
+	def __post_init__(self):
+		if self.k <= 0:
+			raise ValueError("k must be positive")
+		
+		mod = 1 << self.k
+
+		# Derive 'a' and 'b' from the key deterministically.
+		a = _hash_to_int(self.key, b"SEAL_A") % mod
+		b = _hash_to_int(self.key, b"SEAL_B") % mod
+
+		# Force a to be odd so inverse exists mod 2^k.
+		a |= 1
+
+		object.__setattr__(self, "a", a)
+		object.__setattr__(self, "b", b)
+		object.__setattr__(self, "mod", mod)
+		object.__setattr__(self, "a_inv", _modinv(a, mod))
 
 	def permute(self, x: int) -> int:
-		if x < 0 or x >= (1 << self.k):
+		if x < 0 or x >= self.mod:
 			raise ValueError("x out of range for k-bit PRP")
-
-		# Split bits
-		left_bits = self.k // 2
-		right_bits = self.k - left_bits
-		L_mask = (1 << left_bits) - 1
-		R_mask = (1 << right_bits) - 1
-
-		L = (x >> right_bits) & L_mask
-		R = x & R_mask
-
-		for r in range(self.rounds):
-			f = _round_f(self.key, r, R) & L_mask  # match L size
-			L, R = R, (L ^ f) & L_mask if left_bits == right_bits else (L ^ f) & L_mask
-
-		y = ((L & L_mask) << right_bits) | (R & R_mask)
-		return y
+		return (self.a * x + self.b) % self.mod
 
 	def inverse(self, y: int) -> int:
-		if y < 0 or y >= (1 << self.k):
+		if y < 0 or y >= self.mod:
 			raise ValueError("y out of range for k-bit PRP")
-
-		left_bits = self.k // 2
-		right_bits = self.k - left_bits
-		L_mask = (1 << left_bits) - 1
-		R_mask = (1 << right_bits) - 1
-
-		L = (y >> right_bits) & L_mask
-		R = y & R_mask
-
-		for r in reversed(range(self.rounds)):
-			f = _round_f(self.key, r, L) & L_mask
-			L, R = (R ^ f) & L_mask, L
-		
-		x = ((L & L_mask) << right_bits) | (R & R_mask)
-		return x
+		return (self.a_inv * (y - self.b)) % self.mod
