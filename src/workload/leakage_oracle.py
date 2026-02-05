@@ -62,3 +62,38 @@ class SealLeakageOracle:
 			obs_list.append((value, obs))
 			token_id += 1
 		return obs_list
+
+	# Observe leakage for a single query on plaintext value, returns (truevalue, QueryObservation)
+	def observe_query(self, value: Any, token_id: int) -> Tuple[Any, QueryObservation]:
+		import random
+		rnd = random.Random(self.rng_seed + token_id)
+
+		ids = self.dataset_index.get(value, np.array([], dtype=np.int64))
+		prefixes: List[int] = []
+		for rid in ids.tolist():
+			oram_index, _ = self.seal.route(int(rid))
+			prefixes.append(oram_index)
+
+		real_vol = len(prefixes)
+		padded_vol = next_power_of_x(real_vol, self.padding_x)
+
+		# If padding increases the response size, add dummy prefixes
+		if padded_vol > real_vol:
+			extra = padded_vol - real_vol
+			m = (1 << self.seal.params.alpha) if self.seal.params.alpha > 0 else 1
+			for _ in range(extra):
+				prefixes.append(rnd.randrange(m))
+
+		obs = QueryObservation(
+			token_id=token_id,
+			observed_volume=padded_vol,
+			returned_prefixes=prefixes,
+		)
+		return value, obs
+
+	# Build a stream of observations for a sequence of distinct plaintext query-values, token_id is stable per position in stream
+	def observe_query_stream(self, values_in_order: List[Any]) -> List[Tuple[Any, QueryObservation]]:
+		out: List[Tuple[Any, QueryObservation]] = []
+		for t, v in enumerate(values_in_order):
+			out.append(self.observe_query(v, token_id=t))
+		return out
