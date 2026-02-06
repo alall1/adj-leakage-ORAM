@@ -1,0 +1,74 @@
+{
+  "run_name": "phase5_full",
+
+  "toggles": {
+    "perf": true,
+    "over_time": true,
+    "padding_sweep": true,
+    "sessions": true
+  },
+
+  "dataset": {
+    "n": 1048576,
+    "vocab": 4096,
+    "zipf_a": 1.2,
+    "seed": 1
+  },
+
+  "perf": {
+    "n": 1048576,
+    "Z": 4,
+    "alphas": [0, 1, 2, 3, 4, 5, 6],
+    "patterns": ["uniform", "zipf_like", "hot_set"],
+    "num_ops": 20000,
+    "read_fraction": 0.5,
+    "block_size_bytes": 64,
+    "seed": 7,
+
+    "hot_fraction": 0.10,
+    "hot_mass": 0.90,
+    "working_set_fraction": 0.01
+  },
+
+  "over_time": {
+    "Z": 4,
+    "alphas": [0, 1, 2, 3, 4, 5, 6],
+    "patterns": ["uniform", "zipf_like", "hot_set"],
+    "num_queries": 10000,
+    "checkpoints": [10, 100, 1000, 10000],
+    "seed": 9,
+    "padding_x": null,
+
+    "hot_fraction": 0.10,
+    "hot_mass": 0.90,
+    "working_set_fraction": 0.01
+  },
+
+  "padding_sweep": {
+    "Z": 4,
+    "alphas": [0, 1, 2, 3, 4, 5, 6],
+    "xs": ["None", 2, 4, 8, 16],
+    "pattern": "uniform",
+    "num_queries": 10000,
+    "seed": 11,
+
+    "hot_fraction": 0.10,
+    "hot_mass": 0.90,
+    "working_set_fraction": 0.01
+  },
+
+  "sessions": {
+    "Z": 4,
+    "alphas": [0, 1, 2, 3, 4, 5, 6],
+    "pattern": "zipf_like",
+    "session_lengths": [10, 50, 100, 500, 1000],
+    "num_sessions": 200,
+    "seed": 13,
+    "padding_x": null,
+
+    "hot_fraction": 0.10,
+    "hot_mass": 0.90,
+    "working_set_fraction": 0.01
+  }
+}
+
