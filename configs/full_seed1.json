@@ -1,5 +1,5 @@
 {
-  "run_name": "phase5_light_seed1",
+  "run_name": "light_seed1",
 
   "toggles": {
     "perf": true,
