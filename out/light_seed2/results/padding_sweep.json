@@ -1,0 +1,202 @@
+[
+  {
+    "alpha": 0,
+    "x": null,
+    "num_queries": 1000,
+    "qrsr": 0.105,
+    "drsr": 0.00626458183776023,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 178.304,
+    "overhead_factor": 1.0
+  },
+  {
+    "alpha": 1,
+    "x": null,
+    "num_queries": 1000,
+    "qrsr": 0.105,
+    "drsr": 0.006331882627422829,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 178.304,
+    "overhead_factor": 1.0
+  },
+  {
+    "alpha": 2,
+    "x": null,
+    "num_queries": 1000,
+    "qrsr": 0.105,
+    "drsr": 0.0062757986360373295,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 178.304,
+    "overhead_factor": 1.0
+  },
+  {
+    "alpha": 3,
+    "x": null,
+    "num_queries": 1000,
+    "qrsr": 0.105,
+    "drsr": 0.00624214824120603,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 178.304,
+    "overhead_factor": 1.0
+  },
+  {
+    "alpha": 4,
+    "x": null,
+    "num_queries": 1000,
+    "qrsr": 0.105,
+    "drsr": 0.006208497846374731,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 178.304,
+    "overhead_factor": 1.0
+  },
+  {
+    "alpha": 0,
+    "x": 2,
+    "num_queries": 1000,
+    "qrsr": 0.002,
+    "drsr": 0.005950845052251323,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 248.032,
+    "overhead_factor": 1.391062455132807
+  },
+  {
+    "alpha": 1,
+    "x": 2,
+    "num_queries": 1000,
+    "qrsr": 0.002,
+    "drsr": 0.004910656689459425,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 248.032,
+    "overhead_factor": 1.391062455132807
+  },
+  {
+    "alpha": 2,
+    "x": 2,
+    "num_queries": 1000,
+    "qrsr": 0.002,
+    "drsr": 0.005966972003612437,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 248.032,
+    "overhead_factor": 1.391062455132807
+  },
+  {
+    "alpha": 3,
+    "x": 2,
+    "num_queries": 1000,
+    "qrsr": 0.002,
+    "drsr": 0.004555863759514901,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 248.032,
+    "overhead_factor": 1.391062455132807
+  },
+  {
+    "alpha": 4,
+    "x": 2,
+    "num_queries": 1000,
+    "qrsr": 0.002,
+    "drsr": 0.004999354921945556,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 248.032,
+    "overhead_factor": 1.391062455132807
+  },
+  {
+    "alpha": 0,
+    "x": 4,
+    "num_queries": 1000,
+    "qrsr": 0.003,
+    "drsr": 0.004760237068965517,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 371.2,
+    "overhead_factor": 2.08183776022972
+  },
+  {
+    "alpha": 1,
+    "x": 4,
+    "num_queries": 1000,
+    "qrsr": 0.003,
+    "drsr": 0.00765625,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 371.2,
+    "overhead_factor": 2.08183776022972
+  },
+  {
+    "alpha": 2,
+    "x": 4,
+    "num_queries": 1000,
+    "qrsr": 0.003,
+    "drsr": 0.00459051724137931,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 371.2,
+    "overhead_factor": 2.08183776022972
+  },
+  {
+    "alpha": 3,
+    "x": 4,
+    "num_queries": 1000,
+    "qrsr": 0.003,
+    "drsr": 0.005614224137931035,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 371.2,
+    "overhead_factor": 2.08183776022972
+  },
+  {
+    "alpha": 4,
+    "x": 4,
+    "num_queries": 1000,
+    "qrsr": 0.003,
+    "drsr": 0.004674030172413793,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 371.2,
+    "overhead_factor": 2.08183776022972
+  },
+  {
+    "alpha": 0,
+    "x": 8,
+    "num_queries": 1000,
+    "qrsr": 0.0,
+    "drsr": 0.003308869165839126,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 515.584,
+    "overhead_factor": 2.891600861450107
+  },
+  {
+    "alpha": 1,
+    "x": 8,
+    "num_queries": 1000,
+    "qrsr": 0.0,
+    "drsr": 0.003217710402184707,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 515.584,
+    "overhead_factor": 2.891600861450107
+  },
+  {
+    "alpha": 2,
+    "x": 8,
+    "num_queries": 1000,
+    "qrsr": 0.0,
+    "drsr": 0.003101337512413108,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 515.584,
+    "overhead_factor": 2.891600861450107
+  },
+  {
+    "alpha": 3,
+    "x": 8,
+    "num_queries": 1000,
+    "qrsr": 0.0,
+    "drsr": 0.0027696747765640515,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 515.584,
+    "overhead_factor": 2.891600861450107
+  },
+  {
+    "alpha": 4,
+    "x": 8,
+    "num_queries": 1000,
+    "qrsr": 0.0,
+    "drsr": 0.0035047635302879842,
+    "avg_real_vol": 178.304,
+    "avg_padded_vol": 515.584,
+    "overhead_factor": 2.891600861450107
+  }
+]

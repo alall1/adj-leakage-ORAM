@@ -1,0 +1,7 @@
+scheme,alpha,pattern,num_ops,seconds,avg_bandwidth_bytes,avg_buckets_read,avg_buckets_written
+path_oram,0,uniform,1000,0.10852104201330803,10752.0,21.0,21.0
+seal,0,uniform,1000,0.11549937500967644,10752.0,21.0,21.0
+seal,1,uniform,1000,0.1083960410032887,10240.0,20.0,20.0
+seal,2,uniform,1000,0.10537808400113136,9728.0,19.0,19.0
+seal,3,uniform,1000,0.09919583299779333,9216.0,18.0,18.0
+seal,4,uniform,1000,0.091678166994825,8704.0,17.0,17.0

@@ -1,0 +1,7 @@
+scheme,alpha,pattern,num_ops,seconds,avg_bandwidth_bytes,avg_buckets_read,avg_buckets_written
+path_oram,0,zipf_like,1000,0.11332329199649394,10752.0,21.0,21.0
+seal,0,zipf_like,1000,0.122221833007643,10752.0,21.0,21.0
+seal,1,zipf_like,1000,0.11215295799775049,10240.0,20.0,20.0
+seal,2,zipf_like,1000,0.10425783399841748,9728.0,19.0,19.0
+seal,3,zipf_like,1000,0.09799066698178649,9216.0,18.0,18.0
+seal,4,zipf_like,1000,0.09097158300573938,8704.0,17.0,17.0

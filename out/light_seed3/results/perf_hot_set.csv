@@ -1,0 +1,7 @@
+scheme,alpha,pattern,num_ops,seconds,avg_bandwidth_bytes,avg_buckets_read,avg_buckets_written
+path_oram,0,hot_set,1000,0.11101591601618566,10752.0,21.0,21.0
+seal,0,hot_set,1000,0.11975174999679439,10752.0,21.0,21.0
+seal,1,hot_set,1000,0.1119389169907663,10240.0,20.0,20.0
+seal,2,hot_set,1000,0.10382141699665226,9728.0,19.0,19.0
+seal,3,hot_set,1000,0.09715912499814294,9216.0,18.0,18.0
+seal,4,hot_set,1000,0.08942187498905696,8704.0,17.0,17.0
