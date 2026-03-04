@@ -34,15 +34,36 @@ def plot_metric_vs_length(results_by_alpha, lengths, metric: str, title: str, ou
 		ys = [getattr(include_baseline[L], metric) for L in lengths]
 		plt.plot(lengths, ys, marker="o", linestyle="--", label="Path ORAM baseline")
 
-	plt.xscale("log")
-	plt.ylim(0.0, 1.0)
-	plt.xlabel("session length (distinct queries)")
-	plt.ylabel(metric.upper())
-	plt.title(title)
-	plt.legend()
-	plt.tight_layout()
-	plt.savefig(out_path)
-	plt.close()
+	all_y = []
+
+	for alpha, stats in results_by_alpha.items():
+        	ys = [getattr(stats[L], metric) for L in lengths]
+        	all_y.extend(ys)
+        	plt.plot(lengths, ys, marker="o", label=f"alpha={alpha}")
+
+    	if include_baseline is not None:
+        	ys = [getattr(include_baseline[L], metric) for L in lengths]
+        	all_y.extend(ys)
+        	plt.plot(lengths, ys, marker="o", linestyle="--", label="Path ORAM baseline")
+
+    	plt.xscale("log")
+    	plt.xlabel("session length (distinct queries)")
+    	plt.ylabel(metric.upper())
+    	plt.title(title)
+    	plt.legend()
+
+    	if all_y:
+        	y_min = min(all_y)
+        	y_max = max(all_y)
+        	if abs(y_max - y_min) < 1e-6:
+            		pad = 0.01
+        	else:
+            		pad = max(0.01, 0.1 * (y_max - y_min))
+        	lower = max(0.0, y_min - pad)
+        	upper = min(1.0, y_max + pad)
+        	if upper <= lower:
+            		upper = min(1.0, lower + 0.02)
+        	plt.ylim(lower, upper)
 
 def main():
 	cfg = SessionExperimentConfig(
